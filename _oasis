@@ -1,0 +1,24 @@
+OASISFormat: 0.3
+Name:        cloudstack
+Version:     0.0.1
+Synopsis:    Cloudstack API client
+Authors:     David Scott
+License:     Apache
+Plugins:     META (0.3)
+BuildTools:  ocamlbuild
+
+Library cloudstack
+  Pack:               true
+  CompiledObject:     best
+  Path:               lib
+  Findlibname:        cloudstack
+  Modules:            Constants, Common, Http, Zone
+  BuildDepends:       lwt, uri, xmlm, cohttp, cohttp.lwt, cryptokit
+
+Executable cloud
+  CompiledObject:     best
+  Path:               cloud
+  MainIs:             cloud.ml
+  Custom:             true
+  Install:            false
+  BuildDepends:       lwt, lwt.unix, cloudstack, cmdliner

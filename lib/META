@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: a8ccbf923fe875ed60ed506e9f127cc2)
+version = "0.0.1"
+description = "Cloudstack API client"
+requires = "lwt uri xmlm cohttp cohttp.lwt cryptokit"
+archive(byte) = "cloudstack.cma"
+archive(byte, plugin) = "cloudstack.cma"
+archive(native) = "cloudstack.cmxa"
+archive(native, plugin) = "cloudstack.cmxs"
+exists_if = "cloudstack.cma"
+# OASIS_STOP
+
