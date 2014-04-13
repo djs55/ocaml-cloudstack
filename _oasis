@@ -13,7 +13,7 @@ Library cloudstack
   Path:               lib
   Findlibname:        cloudstack
   Modules:            Constants, Common, Http, Zone, Hypervisor, VirtualMachine, Api
-  BuildDepends:       lwt, uri, xmlm, cohttp, cohttp.lwt, cryptokit
+  BuildDepends:       lwt, uri, xmlm, cohttp, cohttp.lwt, cryptokit, uuidm
 
 Executable generator
   CompiledObject:     best

@@ -8,19 +8,19 @@ type param = {
 }
 
 type response = {
-  ?name: string option;
-  ?description: string option;
-  ?ty <json name="type">: string option;
+  ?name <ocaml name="response_name">: string option;
+  ?description <ocaml name="response_description">: string option;
+  ?ty <ocaml name="response_ty"> <json name="type">: string option;
   ?response: response list option;
 }
 
 type api = {
-  name: string;
-  description: string;
+  name <ocaml name="api_name">: string;
+  description <ocaml name="api_description">: string;
   isasync: bool;
-  ?related: string option;
+  ?related <ocaml name="api_related">: string option;
   params: param list;
-  response: response list;
+  responses <json name="response">: response list;
 }
 
 type listapisresponse = {

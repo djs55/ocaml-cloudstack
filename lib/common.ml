@@ -36,3 +36,13 @@ let uri common command args =
            ~path:Constants.uri_path ~port:Constants.port
            ~query:(List.map (fun (k, v) -> k, [v]) pairs)
            ()
+
+module Date = struct
+  type t = string
+end
+module Uuid = struct
+  type t = Uuidm.t
+end
+module Tzdate = struct
+  type t = string
+end

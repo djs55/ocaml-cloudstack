@@ -7,8 +7,8 @@ setup.data: _oasis
 	ocaml setup.ml -configure
 
 generator/listApis_t.ml generator/listApis_j.ml: generator/listApis.atd
-	atdgen -o generator/listApis -t generator/listApis.atd
-	atdgen -o generator/listApis -j generator/listApis.atd
+	atdgen -o-no-name-overlap -o generator/listApis -t generator/listApis.atd
+	atdgen -o-no-name-overlap -o generator/listApis -j generator/listApis.atd
 
 .PHONY: clean
 clean:
