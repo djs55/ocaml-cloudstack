@@ -18,3 +18,21 @@ let sign pairs secret =
   hash#add_string s;
   Cohttp.Base64.encode (hash#result)
 
+let _command = "command"
+let _apiKey = "apiKey"
+let _signature = "signature"
+let _response = "response"
+let _zoneid = "zoneid"
+
+let uri common command args =
+  let pairs = [
+    _command, command;
+    _apiKey, common.apikey;
+    _response, "json";
+  ] @ args in
+  let signature = sign pairs common.secret in
+  let pairs = pairs @ [ _signature, Uri.pct_encode signature ] in
+  Uri.make ~scheme:"http" ~host:common.host
+           ~path:Constants.uri_path ~port:Constants.port
+           ~query:(List.map (fun (k, v) -> k, [v]) pairs)
+           ()
