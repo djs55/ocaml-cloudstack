@@ -43,6 +43,14 @@ let listHypervisors common zoneid =
     return (`Ok ()) in
   try Lwt_main.run t with e -> exit 1
 
+let listVirtualMachines common args =
+  let uri = Cloudstack.VirtualMachine.list_uri common args in
+  let t =
+    Cloudstack.Http.get uri >>= fun response ->
+    Printf.fprintf stdout "%s\n" response;
+    return (`Ok ()) in
+  try Lwt_main.run t with e -> exit 1
+
 let listZones_cmd =
   let doc = "List zones" in
   let man = [
@@ -68,13 +76,26 @@ let listHypervisors_cmd =
   Term.(ret(pure listHypervisors $ common_options_t $ zoneid)),
   Term.info "listHypervisors" ~sdocs:_common_options ~doc ~man
 
+let listVirtualMachines_cmd =
+  let doc = "List Virtual Machines" in
+  let man = [
+    `S "DESCRIPTION";
+    `P "Lists all the Virtual Machines.";
+  ] in
+  let account =
+    let doc = "list resources by account. Must be used with the domainId parameter" in
+    Arg.(value & opt (some string) None & info [ "account" ] ~docv:"ACCOUNT" ~doc) in
+  let args = Term.(pure Cloudstack.VirtualMachine.Args.make $ account) in
+  Term.(ret(pure listVirtualMachines $ common_options_t $ args)),
+  Term.info "listVirtualMachines" ~sdocs:_common_options ~doc ~man
+
 let default_cmd = 
   let doc = "CloudStack API client" in 
   let man = help in
   Term.(ret (pure (fun _ -> `Help (`Pager, None)) $ common_options_t)),
   Term.info "cloud" ~version:"1.0.0" ~sdocs:_common_options ~doc ~man
 
-let cmds = [ listZones_cmd; listHypervisors_cmd ]
+let cmds = [ listZones_cmd; listHypervisors_cmd; listVirtualMachines_cmd ]
 
 let () = match Term.eval_choice default_cmd cmds with
   | `Ok () -> exit 0

@@ -1,8 +1,9 @@
 # OASIS_START
-# DO NOT EDIT (digest: cddbe0438404852b5e3212a3784bbb54)
+# DO NOT EDIT (digest: 246cec1428c97560b636215927e00655)
 Constants
 Common
 Http
 Zone
 Hypervisor
+VirtualMachine
 # OASIS_STOP
