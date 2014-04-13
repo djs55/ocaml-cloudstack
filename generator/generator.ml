@@ -78,6 +78,21 @@ let output_param_make_opt write params =
     ) params;
   write "}\n"
 
+(* A 'constructor' suitable for humans, where every argument is labelled
+ * and non-'required' arguments are optional. *)
+let output_param_make write params =
+  write "let make\n";
+  List.iter (fun p ->
+    if p.required
+    then write (Printf.sprintf "  ~%s\n" (name_of_param p))
+    else write (Printf.sprintf "  ?%s\n" (name_of_param p))
+  ) params;
+  write " () = make_opt ";
+  List.iter (fun p ->
+    write (Printf.sprintf "  %s\n" (name_of_param p))
+  ) params
+
+
 let api_ml { api_name; api_description; isasync; api_related; params; responses } =
   with_output_channel (api_name ^ ".ml")
     (fun oc ->
@@ -89,6 +104,7 @@ let api_ml { api_name; api_description; isasync; api_related; params; responses 
       output_param_type_decl (fun x -> output_string oc ("  " ^ x)) "t" params;
       output_param_pairs     (fun x -> output_string oc ("  " ^ x)) params;
       output_param_make_opt  (fun x -> output_string oc ("  " ^ x)) params;
+      output_param_make      (fun x -> output_string oc ("  " ^ x)) params;
       output_string oc "end\n";
       output_string oc "\n";
       output_string oc "let request common args =\n";
