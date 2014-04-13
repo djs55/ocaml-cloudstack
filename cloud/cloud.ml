@@ -31,7 +31,15 @@ let listZones common available =
   let uri = Cloudstack.Zone.list_uri common available in
   let t =
     Cloudstack.Http.get uri >>= fun response ->
-    Printf.fprintf stdout "%s" response;
+    Printf.fprintf stdout "%s\n" response;
+    return (`Ok ()) in
+  try Lwt_main.run t with e -> exit 1
+
+let listHypervisors common zoneid =
+  let uri = Cloudstack.Hypervisor.list_uri common ?zoneid () in
+  let t =
+    Cloudstack.Http.get uri >>= fun response ->
+    Printf.fprintf stdout "%s\n" response;
     return (`Ok ()) in
   try Lwt_main.run t with e -> exit 1
 
@@ -48,13 +56,25 @@ let listZones_cmd =
   Term.(ret(pure listZones $ common_options_t $ available)),
   Term.info "listZones" ~sdocs:_common_options ~doc ~man
 
+let listHypervisors_cmd =
+  let doc = "List hypervisors" in
+  let man = [
+    `S "DESCRIPTION";
+    `P "Lists all the hypervisors either globally (the default) or in the specified zone.";
+  ] in
+  let zoneid =
+    let doc = "only list hypervisors in the specified zone" in
+    Arg.(value & opt (some string) None & info [ "zoneid" ] ~docv:"ZONEID" ~doc) in
+  Term.(ret(pure listHypervisors $ common_options_t $ zoneid)),
+  Term.info "listHypervisors" ~sdocs:_common_options ~doc ~man
+
 let default_cmd = 
   let doc = "CloudStack API client" in 
   let man = help in
   Term.(ret (pure (fun _ -> `Help (`Pager, None)) $ common_options_t)),
   Term.info "cloud" ~version:"1.0.0" ~sdocs:_common_options ~doc ~man
 
-let cmds = [ listZones_cmd ]
+let cmds = [ listZones_cmd; listHypervisors_cmd ]
 
 let () = match Term.eval_choice default_cmd cmds with
   | `Ok () -> exit 0
