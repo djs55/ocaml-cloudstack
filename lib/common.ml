@@ -39,10 +39,13 @@ let uri common command args =
 
 module Date = struct
   type t = string
+  let to_string x = x
 end
 module Uuid = struct
   type t = Uuidm.t
+  let to_string = Uuidm.to_string
 end
 module Tzdate = struct
   type t = string
+  let to_string x = x
 end

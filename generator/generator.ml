@@ -18,7 +18,8 @@ let with_output_channel filename f =
 
 let name_of_param p = p.name (* TODO: escape OCaml keywords *)
 
-let type_of_param p = match p.ty with
+let type_of_param p =
+  let base = match p.ty with
   | "string" -> "string"
   | "uuid" -> "Common.Uuid.t"
   | "boolean" -> "bool"
@@ -29,14 +30,41 @@ let type_of_param p = match p.ty with
   | "date" -> "Common.Date.t"
   | "tzdate" -> "Common.Tzdate.t"
   | "list" -> "string list"
+  | x -> failwith x in
+  if p.required then base else base ^ " option"
+
+let param_to_string p = match p.ty with
+  | "string" -> "" (* or fun x -> x *)
+  | "uuid" -> "Common.Uuid.to_string"
+  | "boolean" -> "string_of_bool"
+  | "integer" -> "string_of_int";
+  | "long" -> "Int64.to_string";
+  | "short" -> "string_of_int";
+  | "map" -> "(fun vs -> String.concat \",\" (List.map (fun (k, v) -> k ^ \"=\" ^ v) vs))"
+  | "date" -> "Common.Date.to_string"
+  | "tzdate" -> "Common.Tzdate.to_string"
+  | "list" -> "String.concat \",\""
   | x -> failwith x
 
+(* Request arguments are represented as a record Args.t *)
 let output_param_type_decl write name params =
   write (Printf.sprintf "type %s = {\n" name);
   List.iter (fun p ->
     write (Printf.sprintf "  %s: %s;\n" (name_of_param p) (type_of_param p))
   ) params;
   write "}\n"
+
+let output_param_pairs write params =
+  write "let pairs t =\n";
+  List.iter (fun p ->
+    if p.required
+    then write (Printf.sprintf "  let %s = [ \"%s\", %s t.%s ]"
+      (name_of_param p) p.name (param_to_string p) (name_of_param p))
+    else write (Printf.sprintf "  let %s = match t.%s with None -> [] | Some v -> [ \"%s\", %s v ]"
+      (name_of_param p) (name_of_param p) p.name (param_to_string p));
+    write " in\n";
+  ) params;
+  write (Printf.sprintf "  %s\n" (String.concat " @ " (List.map name_of_param params)))
 
 let api_ml { api_name; api_description; isasync; api_related; params; responses } =
   with_output_channel (api_name ^ ".ml")
@@ -45,7 +73,7 @@ let api_ml { api_name; api_description; isasync; api_related; params; responses 
       output_string oc "\n";
       output_string oc "module Args = struct\n";
       output_param_type_decl (fun x -> output_string oc ("  " ^ x)) "t" params;
-      output_string oc "  let pairs _ = []\n";
+      output_param_pairs     (fun x -> output_string oc ("  " ^ x)) params;
       output_string oc "end\n";
       output_string oc "\n";
       output_string oc "let request common args =\n";
