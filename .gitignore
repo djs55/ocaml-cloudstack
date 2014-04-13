@@ -10,3 +10,7 @@
 _build/*
 setup.data
 setup.log
+generator/listApis_j.ml
+generator/listApis_j.mli
+generator/listApis_t.ml
+generator/listApis_t.mli

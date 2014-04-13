@@ -15,6 +15,14 @@ Library cloudstack
   Modules:            Constants, Common, Http, Zone, Hypervisor, VirtualMachine, Api
   BuildDepends:       lwt, uri, xmlm, cohttp, cohttp.lwt, cryptokit
 
+Executable generator
+  CompiledObject:     best
+  Path:               generator
+  MainIs:             generator.ml
+  Custom:             true
+  Install:            false
+  BuildDepends:       cloudstack, atdgen
+
 Executable cloud
   CompiledObject:     best
   Path:               cloud

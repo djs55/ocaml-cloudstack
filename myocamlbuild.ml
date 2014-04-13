@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 80f6e295f299c5a4bd9ca64c39080d77) *)
+(* DO NOT EDIT (digest: 9ec109c690c0fff88d62ddcf8340daac) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -598,7 +598,7 @@ let package_default =
      MyOCamlbuildBase.lib_ocaml = [("cloudstack", ["lib"], [])];
      lib_c = [];
      flags = [];
-     includes = [("cloud", ["lib"])]
+     includes = [("generator", ["lib"]); ("cloud", ["lib"])]
   }
   ;;
 

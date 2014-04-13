@@ -1,0 +1,33 @@
+type param = {
+  name: string;
+  description: string;
+  ty <json name="type">: string;
+  length: int;
+  required: bool;
+  ?related: string option;
+}
+
+type response = {
+  ?name: string option;
+  ?description: string option;
+  ?ty <json name="type">: string option;
+  ?response: response list option;
+}
+
+type api = {
+  name: string;
+  description: string;
+  isasync: bool;
+  ?related: string option;
+  params: param list;
+  response: response list;
+}
+
+type listapisresponse = {
+  count: int;
+  api: api list;
+}
+
+type t = {
+  listapisresponse: listapisresponse;
+}
