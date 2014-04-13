@@ -66,6 +66,18 @@ let output_param_pairs write params =
   ) params;
   write (Printf.sprintf "  %s\n" (String.concat " @ " (List.map name_of_param params)))
 
+(* A 'constructor' with no labels, suitable for a cmdliner term *)
+let output_param_make_opt write params =
+  write "let make_opt\n";
+  List.iter (fun p ->
+    write (Printf.sprintf "  %s\n" (name_of_param p))
+  ) params;
+  write "  = {\n";
+    List.iter (fun p ->
+      write (Printf.sprintf "  %s = %s\n" (name_of_param p) (name_of_param p))
+    ) params;
+  write "}\n"
+
 let api_ml { api_name; api_description; isasync; api_related; params; responses } =
   with_output_channel (api_name ^ ".ml")
     (fun oc ->
@@ -76,6 +88,7 @@ let api_ml { api_name; api_description; isasync; api_related; params; responses 
       output_string oc "module Args = struct\n";
       output_param_type_decl (fun x -> output_string oc ("  " ^ x)) "t" params;
       output_param_pairs     (fun x -> output_string oc ("  " ^ x)) params;
+      output_param_make_opt  (fun x -> output_string oc ("  " ^ x)) params;
       output_string oc "end\n";
       output_string oc "\n";
       output_string oc "let request common args =\n";
