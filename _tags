@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: d47d28bbd9b60a81dfc3b04bf7fc2ea6)
+# DO NOT EDIT (digest: d74c8f435917123054ba62b7984f6ec6)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -17,22 +17,29 @@
 "lib/cloudstack.cmxs": use_cloudstack
 "lib/constants.cmx": for-pack(Cloudstack)
 "lib/common.cmx": for-pack(Cloudstack)
-"lib/http.cmx": for-pack(Cloudstack)
 "lib/zone.cmx": for-pack(Cloudstack)
 "lib/hypervisor.cmx": for-pack(Cloudstack)
 "lib/virtualMachine.cmx": for-pack(Cloudstack)
 "lib/api.cmx": for-pack(Cloudstack)
 <lib/*.ml{,i}>: pkg_cohttp
-<lib/*.ml{,i}>: pkg_cohttp.lwt
 <lib/*.ml{,i}>: pkg_cryptokit
 <lib/*.ml{,i}>: pkg_lwt
 <lib/*.ml{,i}>: pkg_uri
 <lib/*.ml{,i}>: pkg_uuidm
 <lib/*.ml{,i}>: pkg_xmlm
+# Library cloudstack_unix
+"lwt_unix/cloudstack_unix.cmxs": use_cloudstack_unix
+<lwt_unix/*.ml{,i}>: pkg_cohttp
+<lwt_unix/*.ml{,i}>: pkg_cohttp.lwt
+<lwt_unix/*.ml{,i}>: pkg_cryptokit
+<lwt_unix/*.ml{,i}>: pkg_lwt
+<lwt_unix/*.ml{,i}>: pkg_uri
+<lwt_unix/*.ml{,i}>: pkg_uuidm
+<lwt_unix/*.ml{,i}>: pkg_xmlm
+<lwt_unix/*.ml{,i}>: use_cloudstack
 # Executable generator
 <generator/generator.{native,byte}>: pkg_atdgen
 <generator/generator.{native,byte}>: pkg_cohttp
-<generator/generator.{native,byte}>: pkg_cohttp.lwt
 <generator/generator.{native,byte}>: pkg_cryptokit
 <generator/generator.{native,byte}>: pkg_lwt
 <generator/generator.{native,byte}>: pkg_uri
@@ -41,7 +48,6 @@
 <generator/generator.{native,byte}>: use_cloudstack
 <generator/*.ml{,i}>: pkg_atdgen
 <generator/*.ml{,i}>: pkg_cohttp
-<generator/*.ml{,i}>: pkg_cohttp.lwt
 <generator/*.ml{,i}>: pkg_cryptokit
 <generator/*.ml{,i}>: pkg_lwt
 <generator/*.ml{,i}>: pkg_uri
@@ -60,6 +66,7 @@
 <cloud/cloud.{native,byte}>: pkg_uuidm
 <cloud/cloud.{native,byte}>: pkg_xmlm
 <cloud/cloud.{native,byte}>: use_cloudstack
+<cloud/cloud.{native,byte}>: use_cloudstack_unix
 <cloud/*.ml{,i}>: pkg_cmdliner
 <cloud/*.ml{,i}>: pkg_cohttp
 <cloud/*.ml{,i}>: pkg_cohttp.lwt
@@ -70,5 +77,6 @@
 <cloud/*.ml{,i}>: pkg_uuidm
 <cloud/*.ml{,i}>: pkg_xmlm
 <cloud/*.ml{,i}>: use_cloudstack
+<cloud/*.ml{,i}>: use_cloudstack_unix
 <cloud/cloud.{native,byte}>: custom
 # OASIS_STOP

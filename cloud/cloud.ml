@@ -30,7 +30,7 @@ let common_options_t =
 let listZones common available =
   let uri = Cloudstack.Zone.list_uri common available in
   let t =
-    Cloudstack.Http.get uri >>= fun response ->
+    Cloudstack_lwt_unix.get uri >>= fun response ->
     Printf.fprintf stdout "%s\n" response;
     return (`Ok ()) in
   try Lwt_main.run t with e -> exit 1
@@ -38,7 +38,7 @@ let listZones common available =
 let listHypervisors common zoneid =
   let uri = Cloudstack.Hypervisor.list_uri common ?zoneid () in
   let t =
-    Cloudstack.Http.get uri >>= fun response ->
+    Cloudstack_lwt_unix.get uri >>= fun response ->
     Printf.fprintf stdout "%s\n" response;
     return (`Ok ()) in
   try Lwt_main.run t with e -> exit 1
@@ -46,7 +46,7 @@ let listHypervisors common zoneid =
 let listVirtualMachines common args =
   let uri = Cloudstack.VirtualMachine.list_uri common args in
   let t =
-    Cloudstack.Http.get uri >>= fun response ->
+    Cloudstack_lwt_unix.get uri >>= fun response ->
     Printf.fprintf stdout "%s\n" response;
     return (`Ok ()) in
   try Lwt_main.run t with e -> exit 1
@@ -54,7 +54,7 @@ let listVirtualMachines common args =
 let listApis common args =
   let uri = Cloudstack.Api.list_uri common args in
   let t =
-    Cloudstack.Http.get uri >>= fun response ->
+    Cloudstack_lwt_unix.get uri >>= fun response ->
     Printf.fprintf stdout "%s\n" response;
     return (`Ok ()) in
   try Lwt_main.run t with e -> exit 1
