@@ -77,6 +77,15 @@ let output_cmd write { api_name; api_description; params } =
   indent (Printf.sprintf "Term.info \"%s\" ~sdocs:_common_options ~doc ~man" api_name);
   write "\n\n"
 
+(* A complete list of all commands *)
+let output_all write apis =
+  write "let all = [\n";
+  let indent x = write ("  " ^ x) in
+  List.iter (fun { api_name } ->
+    indent (Printf.sprintf "%s_cmd;\n" (ocaml_escape api_name))
+  ) apis; 
+  write "]\n"
+
 let apis_ml { listapisresponse = { api = all } } =
   with_output_channel "cmdliner_commands.ml"
     (fun oc ->
@@ -86,5 +95,6 @@ let apis_ml { listapisresponse = { api = all } } =
         output_term write api;
         output_impl write api;
         output_cmd write api;
-      ) all
+      ) all;
+      output_all write all
     )
