@@ -2,7 +2,7 @@ open Lwt
 open Cmdliner
 
 let project_url = "https://github.com/djs55/ocaml-cloudstack"
-
+(*
 (* Help sections common to all commands *)
 
 let _common_options = "COMMON OPTIONS"
@@ -117,8 +117,8 @@ let default_cmd =
   Term.info "cloud" ~version:"1.0.0" ~sdocs:_common_options ~doc ~man
 
 let cmds = [ listZones_cmd; listHypervisors_cmd; listVirtualMachines_cmd; listApis_cmd ]
-
-let () = match Term.eval_choice default_cmd cmds with
+*)
+let () = match Term.eval_choice default_cmd Cmdliner_commands.all with
   | `Ok () -> exit 0
   | _ -> exit 1
 

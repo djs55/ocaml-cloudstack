@@ -8,11 +8,16 @@ let dedup_assoc xs =
     loop (x.name :: names) (if List.mem x.name names then acc else x :: acc) xs in
   loop [] [] xs
 
+let _library = "library"
+let _cmdliner = "cmdliner"
+
 let _ =
   let json = ref "" in
+  let mode = ref _library in
   Arg.parse [
    "-json", Arg.Set_string json, "json-encoded response of listApis command";
    "-generated", Arg.Set_string output, Printf.sprintf "output directory for generated code (default: %s)" !output;
+   "-mode", Arg.Symbol ([ _library; _cmdliner ], (fun x -> mode := x)), "choose whether to output the library code or the cmdliner terms";
   ] (fun x -> Printf.fprintf stderr "Ignoring argument: %s\n" x)
   "Generate OCaml CloudStack bindings from the CloudStack API introspection API";
   if !json = "" then begin
@@ -34,6 +39,9 @@ let _ =
   (* TODO: consider grouping the APIs the same way they appear in the online
    * docs *)
   (* Generate API bindings *)
-  Gen_library.apis_ml t;
-  Gen_library.apis_mli t;
-  Gen_cmdliner.apis_ml t
+  if !mode = _library then begin
+    Gen_library.apis_ml t;
+    Gen_library.apis_mli t;
+  end else begin
+    Gen_cmdliner.apis_ml t
+  end

@@ -13,7 +13,7 @@ setup.data
 setup.log
 client/lib/request.ml
 client/lib/request.mli
-client/lib/cmdliner_commands.ml
+client/cloud/cmdliner_commands.ml
 generator/src/listApis_j.ml
 generator/src/listApis_j.mli
 generator/src/listApis_t.ml

@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: ab1ded6d4027e7e90caec9981e8649f4)
+# DO NOT EDIT (digest: a0493b6d5fddc3a6efea4243b7ad44a5)
 Constants
 Common
 Zone
@@ -7,5 +7,4 @@ Hypervisor
 VirtualMachine
 Api
 Request
-Cmdliner_commands
 # OASIS_STOP

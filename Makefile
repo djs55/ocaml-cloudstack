@@ -2,7 +2,8 @@
 .PHONY: build
 build:
 	$(MAKE) -C generator build
-	./generator/generator.native -json ./generator/apis.json -generated client/lib
+	./generator/generator.native -json ./generator/apis.json -generated client/lib -mode library
+	./generator/generator.native -json ./generator/apis.json -generated client/cloud -mode cmdliner
 	$(MAKE) -C client build
 
 .PHONY: clean
