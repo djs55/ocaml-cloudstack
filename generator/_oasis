@@ -1,0 +1,16 @@
+OASISFormat: 0.3
+Name:        cloudstack
+Version:     0.0.1
+Synopsis:    Cloudstack API client generator
+Authors:     David Scott
+License:     Apache
+Plugins:     META (0.3)
+BuildTools:  ocamlbuild
+
+Executable generator
+  CompiledObject:     best
+  Path:               src
+  MainIs:             generator.ml
+  Custom:             true
+  Install:            false
+  BuildDepends:       atdgen
