@@ -125,10 +125,12 @@ let api_mli write { api_name; api_description; isasync; api_related; params; res
   indent "  type t\n";
   indent "  (** A set of arguments, ready to marshal *)\n";
   indent "\n";
+  indent "  module Internal : sig\n";
   ( if params = []
-    then indent "  val make_opt: t\n"
-    else indent (Printf.sprintf "  val make_opt: %s -> t\n" (String.concat " -> " (List.map type_of_param params))) );
+    then indent "    val make_opt: t\n"
+    else indent (Printf.sprintf "    val make_opt: %s -> t\n" (String.concat " -> " (List.map type_of_param params))) );
   indent "  (** Construct a set of arguments, intended for use by cmdliner. *)\n";
+  indent "  end\n";
   indent "\n";
   indent "  val make: ";
   List.iter (fun p ->
