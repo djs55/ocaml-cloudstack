@@ -1,9 +1,11 @@
 
+JSON:=api/4ba688f07d9b629aa8e6420eda8092c92aa3d180.json
+
 .PHONY: build
 build:
 	$(MAKE) -C generator build
-	./generator/generator.native -json ./generator/apis.json -generated client/lib -mode library
-	./generator/generator.native -json ./generator/apis.json -generated client/cloud -mode cmdliner
+	./generator/generator.native -json $(JSON) -generated client/lib -mode library
+	./generator/generator.native -json $(JSON) -generated client/cloud -mode cmdliner
 	$(MAKE) -C client build
 
 .PHONY: clean

@@ -12,7 +12,7 @@ Library cloudstack
   CompiledObject:     best
   Path:               lib
   Findlibname:        cloudstack
-  Modules:            Constants, Common, Zone, Hypervisor, VirtualMachine, Api, Request
+  Modules:            Constants, Common, Request
   BuildDepends:       lwt, uri, xmlm, cohttp, cryptokit, uuidm
 
 Library cloudstack_unix
