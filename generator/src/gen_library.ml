@@ -34,38 +34,50 @@ let param_to_string p = match p.ty with
 
 (* Request arguments are represented as a record Args.t *)
 let output_param_type_decl write name params =
-  write (Printf.sprintf "type %s = {\n" name);
-  List.iter (fun p ->
-    write (Printf.sprintf "  %s: %s;\n" (name_of_param p) (type_of_param p))
-  ) params;
-  write "}\n"
+  if params = []
+  then write (Printf.sprintf "type %s = unit\n" name)
+  else begin
+    write (Printf.sprintf "type %s = {\n" name);
+    List.iter (fun p ->
+      write (Printf.sprintf "  %s: %s;\n" (name_of_param p) (type_of_param p))
+    ) params;
+    write "}\n"
+  end
 
 let output_param_pairs write params =
   write "let pairs t =\n";
-  List.iter (fun p ->
-    if p.required
-    then write (Printf.sprintf "  let %s = [ \"%s\", %s t.%s ]"
-      (name_of_param p) p.name (param_to_string p) (name_of_param p))
-    else write (Printf.sprintf "  let %s = match t.%s with None -> [] | Some v -> [ \"%s\", %s v ]"
-      (name_of_param p) (name_of_param p) p.name (param_to_string p));
-    write " in\n";
-  ) params;
-  write (Printf.sprintf "  %s\n" (String.concat " @ " (List.map name_of_param params)))
+  if params = []
+  then write "  []\n"
+  else begin
+    List.iter (fun p ->
+      if p.required
+      then write (Printf.sprintf "  let %s = [ \"%s\", %s t.%s ]"
+        (name_of_param p) p.name (param_to_string p) (name_of_param p))
+      else write (Printf.sprintf "  let %s = match t.%s with None -> [] | Some v -> [ \"%s\", %s v ]"
+        (name_of_param p) (name_of_param p) p.name (param_to_string p));
+      write " in\n";
+    ) params;
+    write (Printf.sprintf "  %s\n" (String.concat " @ " (List.map name_of_param params)))
+  end
 
 (* A 'constructor' with no labels, suitable for a cmdliner term *)
 let output_param_make_opt write params =
   write "module Internal = struct\n";
   let inner x = write ("  " ^ x) in
   inner "let make_opt\n";
-  List.iter (fun p ->
-    inner (Printf.sprintf "  %s\n" (name_of_param p))
-  ) params;
-  inner "  = {\n";
+  if params = []
+  then inner "  = ()\nend\n"
+  else begin
     List.iter (fun p ->
-      inner (Printf.sprintf "  %s = %s\n" (name_of_param p) (name_of_param p))
+      inner (Printf.sprintf "  %s\n" (name_of_param p))
     ) params;
-  inner "}\n";
-  write "end\n"
+    inner "  = {\n";
+      List.iter (fun p ->
+        inner (Printf.sprintf "  %s = %s\n" (name_of_param p) (name_of_param p))
+      ) params;
+    inner "}\n";
+    write "end\n"
+  end
 
 (* A 'constructor' suitable for humans, where every argument is labelled
  * and non-'required' arguments are optional. *)
@@ -114,7 +126,9 @@ let api_mli write { api_name; api_description; isasync; api_related; params; res
   indent "  type t\n";
   indent "  (** A set of arguments, ready to marshal *)\n";
   indent "\n";
-  indent (Printf.sprintf "  val make_opt: %s -> t\n" (String.concat " -> " (List.map type_of_param params)));
+  ( if params = []
+    then indent "  val make_opt: t\n"
+    else indent (Printf.sprintf "  val make_opt: %s -> t\n" (String.concat " -> " (List.map type_of_param params))) );
   indent "  (** Construct a set of arguments, intended for use by cmdliner. *)\n";
   indent "\n";
   indent "  val make: ";
