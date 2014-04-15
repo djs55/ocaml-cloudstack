@@ -15,7 +15,18 @@ let with_output_channel filename f =
   let oc = open_out (Filename.concat !output filename) in
   finally (fun () -> f oc) (fun () -> close_out oc)
 
-let ocaml_escape x = x (* TODO: escape OCaml keywords *)
+let ocaml_keywords = [
+  "and"; "as"; "assert"; "asr"; "begin"; "class"; "constraint"; "do";
+  "done"; "downto"; "else"; "end"; "exception"; "external"; "false";
+  "for"; "fun"; "function"; "functor"; "if"; "in"; "include"; "inherit";
+  "initializer"; "land"; "lazy"; "let"; "lor"; "lsl"; "lsr"; "lxor";
+  "match"; "method"; "mod"; "module"; "mutable"; "new"; "object"; "of";
+  "open"; "or"; "private"; "rec"; "sig"; "struct"; "then"; "to"; "true";
+  "try"; "type"; "val"; "virtual"; "when"; "while"; "with"
+]
+
+let ocaml_escape x = if List.mem x ocaml_keywords then "_" ^ x else x
+
 let name_of_param p = ocaml_escape p.name
 
 let ocaml_module = function
