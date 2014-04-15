@@ -73,7 +73,7 @@ let output_param_make_opt write params =
     ) params;
     inner "  = {\n";
       List.iter (fun p ->
-        inner (Printf.sprintf "  %s = %s\n" (name_of_param p) (name_of_param p))
+        inner (Printf.sprintf "  %s = %s;\n" (name_of_param p) (name_of_param p))
       ) params;
     inner "}\n";
     write "end\n"
