@@ -12,4 +12,4 @@ build:
 clean:
 	$(MAKE) -C generator clean
 	$(MAKE) -C client clean
-	rm -f client/lib/cmdliner_commands.ml client/lib/request.ml client/lib/request.mli
+	rm -f client/cloud/cmdliner_commands.ml client/lib/request.ml client/lib/request.mli
