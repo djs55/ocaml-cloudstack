@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: d74c8f435917123054ba62b7984f6ec6)
+# DO NOT EDIT (digest: 674bf3e9047d8344920c46bfc517de52)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -21,6 +21,8 @@
 "lib/hypervisor.cmx": for-pack(Cloudstack)
 "lib/virtualMachine.cmx": for-pack(Cloudstack)
 "lib/api.cmx": for-pack(Cloudstack)
+"lib/request.cmx": for-pack(Cloudstack)
+"lib/cmdliner_commands.cmx": for-pack(Cloudstack)
 <lib/*.ml{,i}>: pkg_cohttp
 <lib/*.ml{,i}>: pkg_cryptokit
 <lib/*.ml{,i}>: pkg_lwt
@@ -37,24 +39,6 @@
 <lwt_unix/*.ml{,i}>: pkg_uuidm
 <lwt_unix/*.ml{,i}>: pkg_xmlm
 <lwt_unix/*.ml{,i}>: use_cloudstack
-# Executable generator
-<generator/generator.{native,byte}>: pkg_atdgen
-<generator/generator.{native,byte}>: pkg_cohttp
-<generator/generator.{native,byte}>: pkg_cryptokit
-<generator/generator.{native,byte}>: pkg_lwt
-<generator/generator.{native,byte}>: pkg_uri
-<generator/generator.{native,byte}>: pkg_uuidm
-<generator/generator.{native,byte}>: pkg_xmlm
-<generator/generator.{native,byte}>: use_cloudstack
-<generator/*.ml{,i}>: pkg_atdgen
-<generator/*.ml{,i}>: pkg_cohttp
-<generator/*.ml{,i}>: pkg_cryptokit
-<generator/*.ml{,i}>: pkg_lwt
-<generator/*.ml{,i}>: pkg_uri
-<generator/*.ml{,i}>: pkg_uuidm
-<generator/*.ml{,i}>: pkg_xmlm
-<generator/*.ml{,i}>: use_cloudstack
-<generator/generator.{native,byte}>: custom
 # Executable cloud
 <cloud/cloud.{native,byte}>: pkg_cmdliner
 <cloud/cloud.{native,byte}>: pkg_cohttp

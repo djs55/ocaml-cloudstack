@@ -12,7 +12,7 @@ Library cloudstack
   CompiledObject:     best
   Path:               lib
   Findlibname:        cloudstack
-  Modules:            Constants, Common, Zone, Hypervisor, VirtualMachine, Api
+  Modules:            Constants, Common, Zone, Hypervisor, VirtualMachine, Api, Request, Cmdliner_commands
   BuildDepends:       lwt, uri, xmlm, cohttp, cryptokit, uuidm
 
 Library cloudstack_unix
@@ -23,14 +23,6 @@ Library cloudstack_unix
   Findlibparent:      cloudstack
   Modules:            Cloudstack_lwt_unix
   BuildDepends:       lwt, uri, cohttp, cohttp.lwt, cloudstack
-
-Executable generator
-  CompiledObject:     best
-  Path:               generator
-  MainIs:             generator.ml
-  Custom:             true
-  Install:            false
-  BuildDepends:       cloudstack, atdgen
 
 Executable cloud
   CompiledObject:     best
