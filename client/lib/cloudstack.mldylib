@@ -1,4 +1,11 @@
 # OASIS_START
-# DO NOT EDIT (digest: e81fc610000a34a97560d25d06e1fefa)
-Cloudstack
+# DO NOT EDIT (digest: ab1ded6d4027e7e90caec9981e8649f4)
+Constants
+Common
+Zone
+Hypervisor
+VirtualMachine
+Api
+Request
+Cmdliner_commands
 # OASIS_STOP

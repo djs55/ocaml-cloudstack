@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 674bf3e9047d8344920c46bfc517de52)
+# DO NOT EDIT (digest: 1878a45904feef87818d01cb529d3a1c)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -15,14 +15,6 @@
 "_darcs": not_hygienic
 # Library cloudstack
 "lib/cloudstack.cmxs": use_cloudstack
-"lib/constants.cmx": for-pack(Cloudstack)
-"lib/common.cmx": for-pack(Cloudstack)
-"lib/zone.cmx": for-pack(Cloudstack)
-"lib/hypervisor.cmx": for-pack(Cloudstack)
-"lib/virtualMachine.cmx": for-pack(Cloudstack)
-"lib/api.cmx": for-pack(Cloudstack)
-"lib/request.cmx": for-pack(Cloudstack)
-"lib/cmdliner_commands.cmx": for-pack(Cloudstack)
 <lib/*.ml{,i}>: pkg_cohttp
 <lib/*.ml{,i}>: pkg_cryptokit
 <lib/*.ml{,i}>: pkg_lwt
