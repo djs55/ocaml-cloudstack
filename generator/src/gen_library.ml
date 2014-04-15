@@ -105,8 +105,7 @@ let api_ml write { api_name; api_description; isasync; api_related; params; resp
   indent "end\n";
   indent "\n";
   indent "let request common args =\n";
-  indent "  let pairs = Common.pairs common @ (Args.pairs args) in\n";
-  indent (Printf.sprintf "  Common.uri common \"%s\" pairs\n" api_name);
+  indent (Printf.sprintf "  Common.uri common \"%s\" (Args.pairs args)\n" api_name);
   write "end\n\n"
 
 let apis_ml { listapisresponse = { api = all } } =
