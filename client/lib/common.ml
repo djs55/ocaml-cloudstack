@@ -42,8 +42,9 @@ module Date = struct
   let to_string x = x
 end
 module Uuid = struct
-  type t = Uuidm.t
-  let to_string = Uuidm.to_string
+  type t = string
+  let to_string x = x
+  let of_string x = Some x
 end
 module Tzdate = struct
   type t = string
