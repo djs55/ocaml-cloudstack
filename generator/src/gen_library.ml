@@ -119,9 +119,10 @@ let api_mli write { api_name; api_description; isasync; api_related; params; res
   indent "\n";
   indent "  val make: ";
   List.iter (fun p ->
-    indent (Printf.sprintf "%s%s:%s ->" (if p.required then "~" else "?") (name_of_param p) (type_of_param p))
+    indent (Printf.sprintf "%s%s:%s ->" (if p.required then "" else "?")
+    (name_of_param p) (type_of_param { p with required = true }))
   ) params;
-  indent " () -> t";
+  indent " unit -> t";
   indent "  (** Construct a set of arguments\n";
   List.iter (fun p ->
     indent (Printf.sprintf "  @param %s %s\n" (name_of_param p) p.description)
