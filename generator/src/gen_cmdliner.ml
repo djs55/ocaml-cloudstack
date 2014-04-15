@@ -37,7 +37,7 @@ let output_term write { api_name; params } =
   List.iter
     (fun p ->
       indent (Printf.sprintf "let %s =\n" (name_of_param p));
-      indent2 (Printf.sprintf "let doc = \"%s\" in\n" p.description);
+      indent2 (Printf.sprintf "let doc = \"%s\" in\n" (String.escaped p.description));
       indent2 (Printf.sprintf "Arg.(value & %s %s & info [ \"%s\" ] ~docv:\"%s\" ~doc) in\n"
         (cmdliner_type_of_param p) (cmdliner_default_of_param p)
         p.name (String.uppercase p.name));
@@ -70,7 +70,7 @@ let output_cmd write { api_name; api_description; params } =
   indent "let man = [\n";
   let indent2 x = write ("    " ^ x) in
   indent2 "`S \"DESCRIPTION\";\n";
-  indent2 (Printf.sprintf "`P \"%s\";\n" api_description);
+  indent2 (Printf.sprintf "`P \"%s\";\n" (String.escaped api_description));
   indent "] in\n";
   indent (Printf.sprintf "Term.(ret(pure %s_impl $ common_options_t $ %s_term)),\n"
     (ocaml_escape api_name) (ocaml_escape api_name));
